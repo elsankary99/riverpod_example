@@ -8,6 +8,18 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(messagesProvider);
+    ref.listen(
+      messagesProvider,
+      (_, state) {
+        if (state.value!.isNotEmpty || state.hasValue) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('A SnackBar has been shown.'),
+            ),
+          );
+        }
+      },
+    );
     return Scaffold(
       body: provider.when(
         loading: () {
